@@ -27,10 +27,6 @@ export function getConnection(callback) {
   pool.getConnection()
     .then(conn => {
       console.log("Connection successful");
-
-      // Extract host information from the connection options
-      const serverLink = `http://${conn.config.host}:${PORT}`;
-      
       // Envoie la réponse au client avec le lien du serveur
       callback(null, { connection: conn, serverLink: serverLink });
     })
