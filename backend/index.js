@@ -27,7 +27,7 @@ export function getConnection(callback) {
       console.log("Connexion réussite");
 
       // Envoie la réponse au client avec le lien du serveur
-      callback(null, { connection: conn, serverLink: '' });
+      callback(null, { connection: conn, serverLink: conn.serverLink });
     })
     .catch(err => {
       console.log("Echec de votre connexion");
