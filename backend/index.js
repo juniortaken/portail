@@ -75,9 +75,9 @@ try {
         console.error('Error connecting to database:', err);
         process.exit(1);
       }
-         host = app.host;
+
         port = app.PORT;
-        console.log('App listening at http://%s:%s', host, port);
+        console.log('App listening at http://%s:%s', port);
     });
 
   });
