@@ -23,19 +23,17 @@ const pool = mariadb.createPool({
 });
 
 // La fonction getConnection n'a pas besoin du mot-clé async ici
-export function getConnection(callback) {
-  pool.getConnection()
-    .then(conn => {
-      console.log("Connexion réussite");
-
-      // Envoie la réponse au client avec le lien du serveur
-      callback(null, { connection: conn, serverLink: conn.serverLink });
-    })
-    .catch(err => {
-      console.log("Echec de votre connexion");
-      callback(err);
-    });
+export async function getConnection(callback) {
+  try {
+    const conn = await pool.getConnection();
+    console.log("Connection successful");
+    callback(null, { connection: conn, serverLink: conn.serverLink });
+  } catch (err) {
+    console.log("Connection failed");
+    callback(err);
+  }
 }
+
 
 // MIDDLEWARES.
 app.use(cors(corsOptions));
@@ -68,13 +66,19 @@ process.on('SIGINT', () => {
 const PORT = process.env.PORT || 8000;
 
 // Utilisez getConnection correctement avec un rappel
-app.listen(PORT, () => {
-  getConnection((err, result) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      process.exit(1);
-    }
-    console.log(`Port successfully started at ${PORT}`);
-    console.log(`Server link: ${result.serverLink}`);
+try {
+  app.listen(PORT, () => {
+    getConnection((err, result) => {
+      if (err) {
+        console.error('Error connecting to database:', err);
+        process.exit(1);
+      }
+      console.log(`Port successfully started at ${PORT}`);
+      console.log(`Server link: ${result.serverLink}`);
+    });
   });
-});
+} catch (error) {
+  console.error('Error starting the server:', error);
+  process.exit(1);
+}
+
