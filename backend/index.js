@@ -11,7 +11,7 @@ const corsOptions = {
 
 // Configuration de la connexion à la base de données
 const pool = mariadb.createPool({
-  host: 'localhost',
+  host: '31.207.36.150',
   user: 'root',
   password: 'wcl@2065@GOAL',
   database: 'c1pmb',
@@ -25,7 +25,9 @@ export function getConnection(callback) {
   pool.getConnection()
     .then(conn => {
       console.log("Connexion réussite");
-      callback(null, conn);
+
+      // Envoie la réponse au client avec le lien du serveur
+      callback(null, { connection: conn, serverLink: 'http://votrelien.com' });
     })
     .catch(err => {
       console.log("Echec de la connexion");
@@ -64,11 +66,12 @@ const PORT = process.env.PORT || 8000;
 
 // Utilisez getConnection correctement avec un rappel
 app.listen(PORT, () => {
-  getConnection((err) => {
+  getConnection((err, result) => {
     if (err) {
       console.error('Error connecting to database:', err);
       process.exit(1);
     }
     console.log(`Port successfully started at ${PORT}`);
+    console.log(`Server link: ${result.serverLink}`);
   });
 });
