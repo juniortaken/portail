@@ -1,7 +1,7 @@
 // models/Notice.js
-
-import { DataTypes } from 'sequelize';
 import sequelize from '../database';
+import { DataTypes } from 'sequelize';
+
 
 const Book = sequelize.define('Notice', {
   notice_id: {
