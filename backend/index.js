@@ -23,15 +23,21 @@ const pool = mariadb.createPool({
 });
 
 // La fonction getConnection n'a pas besoin du mot-clé async ici
-export async function getConnection(callback) {
-  try {
-    const conn = await pool.getConnection();
-    console.log("Connection successful");
-    callback(null, { connection: conn, serverLink: conn.serverLink });
-  } catch (err) {
-    console.log("Connection failed");
-    callback(err);
-  }
+export function getConnection(callback) {
+  pool.getConnection()
+    .then(conn => {
+      console.log("Connection successful");
+
+      // Extract host information from the connection options
+      const serverLink = `http://${conn.config.host}:${PORT}`;
+      
+      // Envoie la réponse au client avec le lien du serveur
+      callback(null, { connection: conn, serverLink: serverLink });
+    })
+    .catch(err => {
+      console.log("Echec de votre connexion");
+      callback(err);
+    });
 }
 
 
