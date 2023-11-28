@@ -1,6 +1,8 @@
 import express from "express";
 import mariadb from "mariadb";
 import dotenv from "dotenv";
+import userRoute from "./route/userRoute.js";
+import bookRoute from "./route/bookRoute.js";
 dotenv.config();
 import cors from "cors";
 
@@ -38,7 +40,8 @@ export function getConnection(callback) {
 // MIDDLEWARES.
 app.use(cors(corsOptions));
 app.use(express.json());
-
+app.use("/user", userRoute); // user routes.
+app.use("/books", bookRoute); // book routes.
 app.use((err, req, res, next) => {
   res.status(500).json({
     success: false,
