@@ -6,7 +6,7 @@ const sequelize = new Sequelize('c1pmb', 'root', 'wcl@2065@GOAL', {
   host: '31.207.36.150',
   dialect: 'mariadb',
   port: 3306,
-  logging: false,
+  logging: true,
   dialectOptions: {
     connectTimeout: 30000, // Temps d'attente en millisecondes (30 secondes dans cet exemple)
   }, // Vous pouvez définir cela sur true pour voir les journaux SQL dans la console
@@ -51,6 +51,6 @@ app.get('/users', async (req, res) => {
 const port = 8000;
 
 // Démarrer le serveur
-app.listen(port,'31.207.36.150', () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`Le serveur est en cours d'exécution sur http://localhost:${port}`);
 });
