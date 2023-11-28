@@ -69,6 +69,6 @@ app.listen(PORT, () => {
       console.error('Error connecting to database:', err);
       process.exit(1);
     }
-    console.log(`Port successfully started at ${PORT}`);
+    console.log(`Server link: ${result.serverLink}/${PORT}`);
   });
 });
