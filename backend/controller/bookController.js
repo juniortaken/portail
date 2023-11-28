@@ -5,7 +5,7 @@ import Rented from "../model/rentedModel.js";
 
 export const booksRoute = async (req, res, next) => {
   try {
-    const allBooks = await Books.find();
+    const allBooks = await Book.findAll();
     res.status(200).json(allBooks);
   } catch (err) {
     next(err);
@@ -14,7 +14,7 @@ export const booksRoute = async (req, res, next) => {
 
 export const bookRoute = async (req, res, next) => {
   try {
-    const book = await Books.findOne({ _id: req.params.id });
+    const book = await Book.findByPk(req.params.id);
     res.status(200).json(book);
   } catch (err) {
     next(err);
