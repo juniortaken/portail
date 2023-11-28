@@ -28,7 +28,7 @@ export function getConnection(callback) {
     .then(conn => {
       console.log("Connection successful");
       // Envoie la réponse au client avec le lien du serveur
-      callback(null, { connection: conn, serverLink: serverLink });
+      callback(null, { connection: conn});
     })
     .catch(err => {
       console.log("Echec de votre connexion");
@@ -69,7 +69,7 @@ const PORT = process.env.PORT || 8000;
 
 // Utilisez getConnection correctement avec un rappel
 try {
-  app.listen(PORT, () => {
+  app.listen(PORT,'0.0.0.0', () => {
     getConnection((err) => {
       if (err) {
         console.error('Error connecting to database:', err);
