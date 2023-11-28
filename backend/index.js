@@ -73,7 +73,7 @@ const PORT = process.env.PORT || 8000;
 
 // Utilisez getConnection correctement avec un rappel
 try {
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     getConnection((err, result) => {
       if (err) {
         console.error('Error connecting to database:', err);
