@@ -30,7 +30,7 @@ export function getConnection(callback) {
       callback(null, { connection: conn, serverLink: 'http://votrelien.com' });
     })
     .catch(err => {
-      console.log("Echec de la connexion");
+      console.log("Echec de votre connexion");
       callback(err);
     });
 }
