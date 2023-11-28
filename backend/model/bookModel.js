@@ -1,7 +1,11 @@
 // models/Notice.js
-import sequelize from '../database';
 import { DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
 
+const sequelize = new Sequelize('c1pmb', 'root', 'wcl@2065@GOAL', {
+  host: 'localhost',
+  dialect: 'mariadb', // or 'mysql' for MySQL
+});
 
 const Book = sequelize.define('Notice', {
   notice_id: {
