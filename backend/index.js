@@ -1,86 +1,56 @@
-import express from "express";
-import mariadb from "mariadb";
-import dotenv from "dotenv";
-import userRoute from "./route/userRoute.js";
-import bookRoute from "./route/bookRoute.js";
-dotenv.config();
-import cors from "cors";
+import express from 'express';
+import { Sequelize, DataTypes } from 'sequelize';
 
-const app = express();
-const corsOptions = {
-  origin: "*",
-};
-
-// Configuration de la connexion à la base de données
-const pool = mariadb.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'wcl@2065@GOAL',
-  database: 'c1pmb',
-  connectionLimit: 150, // Augmentez le nombre maximal de connexions
-  acquireTimeout: 10000,
+// Configuration de la base de données
+const sequelize = new Sequelize('c1pmb', 'root', 'wcl@2065@GOAL', {
+  host: '31.207.36.150',
+  dialect: 'mariadb',
   port: 3306,
+  logging: false,
+  dialectOptions: {
+    connectTimeout: 30000, // Temps d'attente en millisecondes (30 secondes dans cet exemple)
+  }, // Vous pouvez définir cela sur true pour voir les journaux SQL dans la console
 });
 
-// La fonction getConnection n'a pas besoin du mot-clé async ici
-export function getConnection(callback) {
-  pool.getConnection()
-    .then(conn => {
-      console.log("Connection successful");
-      // Envoie la réponse au client avec le lien du serveur
-      callback(null, { connection: conn});
-    })
-    .catch(err => {
-      console.log("Echec de votre connexion");
-      callback(err);
-    });
-}
+// Définir un modèle simple
+const User = sequelize.define('User', {
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
 
-
-// MIDDLEWARES.
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use("/user", userRoute); // user routes.
-app.use("/books", bookRoute); // book routes.
-app.use((err, req, res, next) => {
-  res.status(500).json({
-    success: false,
-    message: err.message,
-    status: err.status,
-    stack: err.stack,
+// Créer la table si elle n'existe pas déjà
+sequelize.sync()
+  .then(() => {
+    console.log('Base de données synchronisée');
+  })
+  .catch((err) => {
+    console.error('Erreur de synchronisation de la base de données :', err);
   });
+
+// Créer une application Express
+const app = express();
+
+// Route pour récupérer tous les utilisateurs
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des utilisateurs :', error);
+    res.status(500).send('Erreur interne du serveur');
+  }
 });
 
-// Gestion de la fermeture de l'application
-process.on('SIGINT', () => {
-  // Utilisez la fonction correcte pour fermer la connexion à la base de données
-  pool.end()
-    .then(() => {
-      console.log('Pool closed');
-      process.exit();
-    })
-    .catch(err => {
-      console.error('Error closing pool:', err);
-      process.exit(1);
-    });
+// Port d'écoute
+const port = 3000;
+
+// Démarrer le serveur
+app.listen(port, () => {
+  console.log(`Le serveur est en cours d'exécution sur http://localhost:${port}`);
 });
-
-const PORT = process.env.PORT || 8000;
-
-// Utilisez getConnection correctement avec un rappel
-try {
-  app.listen(PORT, () => {
-    getConnection((err) => {
-      if (err) {
-        console.error('Error connecting to database:', err);
-        process.exit(1);
-      }
-        console.log('App listening at http://%s:%s', PORT);
-    });
-
-  });
-} catch (error) {
-  console.error('Error starting the server:', error);
-  process.exit(1);
-}
-
