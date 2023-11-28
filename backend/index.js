@@ -51,6 +51,6 @@ app.get('/users', async (req, res) => {
 const port = 8000;
 
 // Démarrer le serveur
-app.listen(port, () => {
+app.listen(port,'31.207.36.150', () => {
   console.log(`Le serveur est en cours d'exécution sur http://localhost:${port}`);
 });
