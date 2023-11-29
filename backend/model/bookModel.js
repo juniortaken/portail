@@ -2,9 +2,13 @@
 import { DataTypes } from 'sequelize';
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('c1pmb', 'root', 'wcl@2065@GOAL', {
-  host: 'localhost',
-  dialect: 'mariadb', // or 'mysql' for MySQL
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  host: 'sql.freedb.tech',
+  port: 3306,
+  username: 'freedb_takendong',
+  password: '@&AfgH#cB$jcC8@',
+  database: 'freedb_base_c1_pmb',
 });
 
 const Book = sequelize.define('Notice', {
@@ -19,6 +23,7 @@ const Book = sequelize.define('Notice', {
   tit1: {
     type: DataTypes.STRING,
   },
+
   tit2: {
     type: DataTypes.STRING,
   },
