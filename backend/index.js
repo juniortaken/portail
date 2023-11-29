@@ -61,10 +61,10 @@ const Book = sequelize.define('notices', {
   },
   subcoll_id: {
     type: DataTypes.INTEGER,
-  },
+  },*/
   year: {
     type: DataTypes.INTEGER,
-  },
+  },/*
   nocoll: {
     type: DataTypes.STRING,
   },*/
@@ -194,6 +194,54 @@ const Book = sequelize.define('notices', {
 },{
   timestamps: false,
 });
+const Author = sequelize.define('authors', {
+  author_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  author_type: {
+    type: DataTypes.STRING,
+  },
+  author_name: {
+    type: DataTypes.STRING,
+  },
+  author_rejete: {
+    type: DataTypes.STRING,
+  },
+  author_date: {
+    type: DataTypes.DATE,
+  },
+  author_see: {
+    type: DataTypes.STRING,
+  },
+  author_web: {
+    type: DataTypes.STRING,
+  },
+  index_author: {
+    type: DataTypes.STRING,
+  },
+}, {
+  timestamps: false,
+});
+const Categories = sequelize.define('categories', {
+  num_thesaurus: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  num_noeud: {
+    type: DataTypes.INTEGER,
+  },
+  langue: {
+    type: DataTypes.STRING,
+  },
+  libelle_categorie: {
+    type: DataTypes.STRING,
+  },
+}, {
+  timestamps: false,
+});
 // Test the database connection
 sequelize
   .authenticate()
@@ -219,6 +267,26 @@ app.get("/books", async (req, res) => {
   }
 });
 
+app.get("/categories", async (req, res) => {
+  try {
+    const allBooks = await Categories.findAll();
+    res.status(200).json(allBooks);
+  } catch (err) {
+    console.error("Error fetching categories:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/authors", async (req, res) => {
+  try {
+    const allAuthors = await Author.findAll();
+    res.status(200).json(allAuthors);
+  } catch (err) {
+    console.error("Error fetching Authors:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/books/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -233,6 +301,7 @@ app.get("/books/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // ... (other routes)
 
