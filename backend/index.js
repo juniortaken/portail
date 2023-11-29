@@ -49,10 +49,10 @@ const Book = sequelize.define('notices', {
   },
   tnvol: {
     type: DataTypes.STRING,
-  },
+  },*/
   ed1_id: {
     type: DataTypes.INTEGER,
-  },
+  },/*
   ed2_id: {
     type: DataTypes.INTEGER,
   },
@@ -67,16 +67,16 @@ const Book = sequelize.define('notices', {
   },
   nocoll: {
     type: DataTypes.STRING,
-  },
+  },*/
   mention_edition: {
     type: DataTypes.STRING,
-  },
+  },/*
   code: {
     type: DataTypes.STRING,
-  },
+  },*/
   npages: {
     type: DataTypes.INTEGER,
-  },
+  },/*
   ill: {
     type: DataTypes.STRING,
   },
@@ -91,10 +91,10 @@ const Book = sequelize.define('notices', {
   },
   n_contenu: {
     type: DataTypes.STRING,
-  },
+  },*/
   n_resume: {
     type: DataTypes.STRING,
-  },
+  },/*
   lien: {
     type: DataTypes.STRING,
   },
@@ -118,10 +118,10 @@ const Book = sequelize.define('notices', {
   },
   niveau_hierar: {
     type: DataTypes.STRING,
-  },
+  },*/
   origine_catalogage: {
     type: DataTypes.STRING,
-  },
+  },/*
   prix: {
     type: DataTypes.FLOAT,
   },
@@ -139,10 +139,10 @@ const Book = sequelize.define('notices', {
   },
   index_wew: {
     type: DataTypes.STRING,
-  },
+  },*/
   statut: {
     type: DataTypes.STRING,
-  },
+  },/*
   commentaire_gestion: {
     type: DataTypes.STRING,
   },
@@ -163,10 +163,10 @@ const Book = sequelize.define('notices', {
   },
   opac_visible_bulletinage: {
     type: DataTypes.BOOLEAN,
-  },
+  },*/
   indexation_lang: {
     type: DataTypes.STRING,
-  },
+  },/*
   map_echelle_num: {
     type: DataTypes.STRING,
   },
